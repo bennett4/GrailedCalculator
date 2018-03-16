@@ -72,7 +72,7 @@ class ViewController: UIViewController {
             return
         }
         
-        // irrelevant now, this was before I was able to limit the number of characters
+        // irrelevant now, this was before I was able to limit the number of characters, but want to leave it in here
         if textField.text!.count > 5 {
             messageLabel.text = "You aren't selling it for that price."
             messageLabel.textAlignment = NSTextAlignment.center
