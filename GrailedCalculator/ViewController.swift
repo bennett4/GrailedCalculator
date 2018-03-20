@@ -16,10 +16,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var takehomeLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var calculateButton: UIButton!
+    @IBOutlet weak var internationalSwitch: UISwitch!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         calculateButton.layer.cornerRadius = 8
+        internationalSwitch.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         // Do any additional setup after loading the view, typically from a nib.
     } // end of function viewDidLoad
     
@@ -70,7 +73,7 @@ class ViewController: UIViewController {
             takehomeLabel.text = "Takehome:  "
             self.view.endEditing(true)
             return
-        }
+        } // end if empty input
         
         // irrelevant now, this was before I was able to limit the number of characters, but want to leave it in here
         if textField.text!.count > 5 {
@@ -85,9 +88,17 @@ class ViewController: UIViewController {
         
         
         // where the actual math begins
+        var paypalPercentage:Double;
+        if internationalSwitch.isOn {
+            paypalPercentage = 0.044
+        } // end if international switch is "off"
+        else {
+            paypalPercentage = 0.029
+        } // end else, the international switch is "on"
+        
         let salePrice: Double? = Double(textField.text!)
         let grailedFee = round(100 * salePrice! * 0.06) / 100
-        let paypalFee = round(100 * salePrice! * 0.029) / 100 + 0.30
+        let paypalFee = round(100 * salePrice! * paypalPercentage) / 100 + 0.30
         let takehomeCalculation = salePrice! - (grailedFee + paypalFee)
         let takehome = round(100 * (takehomeCalculation)) / 100
         
@@ -100,10 +111,13 @@ class ViewController: UIViewController {
         
     } // end of function calculate
     
+    @IBAction func internationalSwitched(_ sender: Any) {
+        calculate(sender);
+    } // end of function internationalSwitched
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     } // end of function didReceiveMemoryWarning
-
-
+    
 } // end of ViewController
